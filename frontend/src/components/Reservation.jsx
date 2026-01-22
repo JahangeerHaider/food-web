@@ -15,31 +15,32 @@ const Reservation = () => {
   const [phone, setPhone] = useState(0);
   const navigate = useNavigate();
 
-  const handleReservation = async (e) => {
-    e.preventDefault();
-    try {
-      const { data } = await axios.post(
-        "http://localhost:4000/api/v1/reservation/send",
-        { firstName, lastName, email, phone, date, time },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
-      toast.success(data.message);
-      setFirstName("");
-      setLastName("");
-      setPhone(0);
-      setEmail("");
-      setTime("");
-      setDate("");
-      navigate("/success");
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
-  };
+ const handleReservation = async (e) => {
+  e.preventDefault();
+  try {
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/v1/reservation/send`,
+      { firstName, lastName, email, phone, date, time },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+    toast.success(data.message);
+    setFirstName("");
+    setLastName("");
+    setPhone(0);
+    setEmail("");
+    setTime("");
+    setDate("");
+    navigate("/success");
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Something went wrong");
+  }
+};
+
 
   return (
     <section className="reservation" id="reservation">
