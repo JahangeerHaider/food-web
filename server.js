@@ -4,17 +4,17 @@ import reservationRouter from "./routes/reservationRouter.js";
 
 const app = express();
 
-// CORS configuration
+// CORS
 app.use(
   cors({
-    origin: "https://food-web-nu-black.vercel.app", // your frontend URL
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // include OPTIONS
-    allowedHeaders: ["Content-Type", "Authorization"], // allow these headers
+    origin: process.env.Frontend_URL, // use env variable
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
 
-// Handle preflight OPTIONS requests globally
+// Make sure OPTIONS requests work
 app.options("*", cors());
 
 // Body parser
@@ -23,7 +23,8 @@ app.use(express.json());
 // Routes
 app.use("/api/v1/reservation", reservationRouter);
 
-// Start server
-app.listen(process.env.PORT || 8080, () => {
-  console.log("Server running on port", process.env.PORT || 8080);
+// Listen
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
